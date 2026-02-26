@@ -1,113 +1,99 @@
 import { Tabs } from "expo-router";
-import { StyleSheet } from "react-native";
-import { View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const TabIcon = ({ focused, iconName, title }: any) => {
-  if (focused) {
-    return (
-      <View style={styles.focusedContainer}>
-        <Ionicons 
-          name={iconName}
-          size={20}
-          color="#151312"
-        />
-      </View>
-    );
-  } else {
-    return (
-      <View style={styles.unfocusedContainer}>
-        <Ionicons 
-          name={iconName}
-          size={20}
-          color="#A8B5DB"
-        />
-      </View>
-    );
-  }
+type TabIconProps = {
+  focused: boolean;
+  iconName: keyof typeof Ionicons.glyphMap;
 };
 
-const styles = StyleSheet.create({
-  focusedContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 30,
-    width: 48,
-    height: 35,
-  },
-  unfocusedContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 48,
-    height: 48,
-  },
-  focusedText: {
-    color: '#151312',
-    fontSize: 14,
-    fontWeight: '600',
-    marginLeft: 4,
-  },
-});
+const TabIcon = ({ focused, iconName }: TabIconProps) => {
+  return (
+    <View
+      style={
+        focused ? styles.focusedContainer : styles.unfocusedContainer
+      }
+    >
+      <Ionicons
+        name={iconName}
+        size={22}
+        color={focused ? "#151312" : "#A8B5DB"}
+      />
+    </View>
+  );
+};
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: {
-          backgroundColor: "#0f0D23",
-          borderRadius: 50,
-          marginHorizontal: 20,
-          marginBottom: 56,
-          height: 60,
-          borderWidth: 1,
-          borderColor: "#0f0D23",
-          paddingTop: 4,
-        },
+        tabBarStyle: styles.tabBar,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
-          headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} iconName="home" title="Home" />
+            <TabIcon focused={focused} iconName="home" />
           ),
         }}
       />
+
       <Tabs.Screen
         name="search"
         options={{
-          title: "Search",
-          headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} iconName="search" title="Search" />
+            <TabIcon focused={focused} iconName="search" />
           ),
         }}
       />
+
       <Tabs.Screen
         name="saved"
         options={{
-          title: "Saved",
-          headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} iconName="bookmark" title="Saved" />
+            <TabIcon focused={focused} iconName="bookmark" />
           ),
         }}
       />
+
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
-          headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} iconName="person" title="Profile" />
+            <TabIcon focused={focused} iconName="person" />
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    position: "absolute",   
+    backgroundColor: "#1A1633",
+    borderRadius: 50,
+    marginHorizontal: 20,
+    bottom: 40,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#0f0D23",
+  },
+  focusedContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 30,
+    width: 50,
+    height: 30,
+  },
+  unfocusedContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 50,
+    height: 50,
+  },
+});
